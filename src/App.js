@@ -1,17 +1,34 @@
 import React, { Component } from 'react';
+import Particles from 'react-particles-js';
 import Navigation from './components/Navigation/navigation';
 import Logo from './components/Logo/logo';
+import Rank from './components/Rank/rank';
+import ImageLinkForm from './components/ImageLinkForm/imagelinkform';
 import './App.css';
+
+const particlesOptions = {
+  particles: {
+    number: {
+      value: 50,
+      density: {
+        enable: true,
+        value_area: 800
+      }
+    }
+  }
+}
 
 class App extends Component {
   render() {
     return (
-      <div className="App">
+      <div className='App'>
+        <Particles className='particles'
+          params={particlesOptions} />
         <Navigation />
         <Logo />
-        {/*<ImageLinkForm />
-        <FaceRecognition />*/}
-        <div>Icons made by <a href="https://www.flaticon.com/authors/darius-dan" title="Darius Dan">Darius Dan</a> from <a href="https://www.flaticon.com/" 			    title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" 			    title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
+        <Rank />
+        <ImageLinkForm />
+        {/*<FaceRecognition />*/}
       </div>
       
     );
