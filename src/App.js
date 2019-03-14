@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Particles from 'react-particles-js';
+import SignIn from './components/SignIn/signin';
 import Navigation from './components/Navigation/navigation';
 import Logo from './components/Logo/logo';
 import Rank from './components/Rank/rank';
@@ -31,6 +32,7 @@ class App extends Component {
       input: '',
       imageURL: '',
       box: {},
+      route: 'signin'
     }
   }
   calculateFaceLocation = (data) => {
@@ -66,13 +68,18 @@ class App extends Component {
         <Particles className='particles'
           params={particlesOptions} />
         <Navigation />
-        <Logo />
-        <Rank />
-        <ImageLinkForm 
-          onInputChange = {this.onInputChange} 
-          onButtonSubmit = {this.onButtonSubmit}
-        />
-        <FaceRecognition box={this.state.box} imageURL={this.state.imageURL}/>
+        {this.state.route === 'signin'
+          ? <SignIn />
+          : <div>
+          <Logo />
+          <Rank />
+          <ImageLinkForm 
+            onInputChange = {this.onInputChange} 
+            onButtonSubmit = {this.onButtonSubmit}
+          />
+          <FaceRecognition box={this.state.box} imageURL={this.state.imageURL}/>
+          </div>
+        }
       </div>
       
     );
