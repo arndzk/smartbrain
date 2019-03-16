@@ -37,6 +37,7 @@ class App extends Component {
       isSignedIn: false
     }
   }
+
   calculateFaceLocation = (data) => {
     const clarifaiFace = data.outputs[0].data.regions[0].region_info.bounding_box;
     const image = document.getElementById('inputImage');
@@ -50,51 +51,51 @@ class App extends Component {
     }
   }
   displayFaceBox = (box) => {
-    this.setState({box: box});
+    this.setState({ box: box });
   }
   onInputChange = (event) => {
-    this.setState({input: event.target.value});
+    this.setState({ input: event.target.value });
   }
   onButtonSubmit = () => {
-    this.setState({imageURL: this.state.input});
+    this.setState({ imageURL: this.state.input });
     app.models.predict(
-      Clarifai.FACE_DETECT_MODEL, 
+      Clarifai.FACE_DETECT_MODEL,
       this.state.input)
       .then(response => this.displayFaceBox(this.calculateFaceLocation(response)))
       .catch(err => console.log(err));
   }
   onRouteChange = (route) => {
     if (route === 'signout') {
-      this.setState({isSignedIn: false})
-    } else if (route === 'home'){
-      this.setState({isSignedIn: true})
+      this.setState({ isSignedIn: false })
+    } else if (route === 'home') {
+      this.setState({ isSignedIn: true })
     }
-    this.setState({route: route});
+    this.setState({ route: route });
   }
   render() {
     return (
       <div className='App'>
         <Particles className='particles'
           params={particlesOptions} />
-        <Navigation isSignedIn={this.state.isSignedIn} onRouteChange={this.onRouteChange}/>
+        <Navigation isSignedIn={this.state.isSignedIn} onRouteChange={this.onRouteChange} />
         {this.state.route === 'home'
           ? <div>
-          <Logo />
-          <Rank />
-          <ImageLinkForm 
-            onInputChange = {this.onInputChange} 
-            onButtonSubmit = {this.onButtonSubmit}
-          />
-          <FaceRecognition box={this.state.box} imageURL={this.state.imageURL}/>
+            <Logo />
+            <Rank />
+            <ImageLinkForm
+              onInputChange={this.onInputChange}
+              onButtonSubmit={this.onButtonSubmit}
+            />
+            <FaceRecognition box={this.state.box} imageURL={this.state.imageURL} />
           </div>
           : (
-              this.state.route === 'signin'
-              ? <SignIn onRouteChange={this.onRouteChange}/>
-              : <Register onRouteChange={this.onRouteChange}/>
-            )
+            this.state.route === 'signin'
+              ? <SignIn onRouteChange={this.onRouteChange} />
+              : <Register onRouteChange={this.onRouteChange} />
+          )
         }
       </div>
-      
+
     );
   }
 }
