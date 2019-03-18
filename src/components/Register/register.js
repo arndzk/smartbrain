@@ -6,7 +6,7 @@ class Register extends React.Component {
         this.state = {
             email: '',
             password: '',
-            username: ''
+            name: ''
         }
     }
     onEmailChange = (event) => {
@@ -15,8 +15,8 @@ class Register extends React.Component {
     onPasswordChange = (event) => {
         this.setState({ password: event.target.value })
     }
-    onUsernameChange = (event) => {
-        this.setState({ username: event.target.value })
+    onNameChange = (event) => {
+        this.setState({ name: event.target.value })
     }
     onSubmitSignIn = () => {
         fetch('http://localhost:3001/register', {
@@ -25,7 +25,7 @@ class Register extends React.Component {
             body: JSON.stringify({
                 email: this.state.email,
                 password: this.state.password,
-                username: this.state.username
+                name: this.state.name
             })
         })
             .then(response => response.json())
@@ -44,11 +44,11 @@ class Register extends React.Component {
                         <fieldset id="sign_up" className="ba b--transparent ph0 mh0">
                             <legend className="f2 fw6 ph0 mh0">Register</legend>
                             <div className="mt3">
-                                <label className="db fw6 lh-copy f6" htmlFor="username">Username</label>
+                                <label className="db fw6 lh-copy f6" htmlFor="name">name</label>
                                 <input
-                                    onChange={this.onUsernameChange}
+                                    onChange={this.onNameChange}
                                     className="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100"
-                                    type="text" name="username" id="username" 
+                                    type="text" name="name" id="name" 
                                 />
                             </div>
                             <div className="mt3">
