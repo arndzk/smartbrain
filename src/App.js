@@ -8,11 +8,6 @@ import Rank from './components/Rank/rank';
 import ImageLinkForm from './components/ImageLinkForm/imagelinkform';
 import FaceRecognition from './components/FaceRecognition/facerecognition';
 import './App.css';
-import Clarifai from 'clarifai';
-
-const app = new Clarifai.App({
-  apiKey: '8a3167cf476440d4943f81df76da6731'
-});
 
 const particlesOptions = {
   particles: {
@@ -27,18 +22,18 @@ const particlesOptions = {
 }
 
 const initialState = {
-    input: '',
-    imageURL: '',
-    box: {},
-    route: 'signin',
-    isSignedIn: false,
-    user: {
-      id: '',
-      email: '',
-      name: '',
-      entries: 0,
-      joined: ''
-    }
+  input: '',
+  imageURL: '',
+  box: {},
+  route: 'signin',
+  isSignedIn: false,
+  user: {
+    id: '',
+    email: '',
+    name: '',
+    entries: 0,
+    joined: ''
+  }
 }
 
 class App extends Component {
@@ -48,13 +43,15 @@ class App extends Component {
   }
 
   loadUser = (data) => {
-    this.setState({user: {
+    this.setState({
+      user: {
         id: data.id,
         email: data.email,
         name: data.name,
         entries: data.entries,
         joined: data.joined
-    }})
+      }
+    })
   }
 
   calculateFaceLocation = (data) => {
@@ -77,22 +74,27 @@ class App extends Component {
   }
   onButtonSubmit = () => {
     this.setState({ imageURL: this.state.input });
-    app.models.predict(
-      Clarifai.FACE_DETECT_MODEL,
-      this.state.input)
-      .then(response => {
-        if(response) {
+    fetch('http://localhost:3001/imageurl', {
+      method: 'post',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        input: this.state.input,
+      })
+    })
+    .then(response => response.json() )
+    .then(response => {
+        if (response) {
           fetch('http://localhost:3001/image', {
             method: 'put',
-            headers: {'Content-Type': 'application/json'},
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-                id: this.state.user.id,
+              id: this.state.user.id,
             })
-        })
-        .then(response => response.json())
-        .then(count => {
-          this.setState(Object.assign(this.state.user, {entries: count}))
-        })
+          })
+            .then(response => response.json())
+            .then(count => {
+              this.setState(Object.assign(this.state.user, { entries: count }))
+            })
         }
         this.displayFaceBox(this.calculateFaceLocation(response))
       })
@@ -115,7 +117,7 @@ class App extends Component {
         {this.state.route === 'home'
           ? <div>
             <Logo />
-            <Rank name={this.state.user.name} entries={this.state.user.entries}/>
+            <Rank name={this.state.user.name} entries={this.state.user.entries} />
             <ImageLinkForm
               onInputChange={this.onInputChange}
               onButtonSubmit={this.onButtonSubmit}
